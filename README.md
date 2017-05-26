@@ -1,33 +1,36 @@
 # Telegram Bot Petrovich
 #### Petrovich. Radosti skupyye telegrammy
 A [Telegram](https://telegram.org/) bot running with RSS and VK group integration and ready to deploy with Heroku.
-Now bot supports sending text message from RSS and VK groups only.
+
+### Features
+1. Bot support commands:
+* `/last` - send to user last 5 posts 
+* `/search %search_word%` - send all posts with `%search_word%`
+* `/random` - send random post
+* `/off` - turn off auto broadcasting
+* `/on` - turn on auto broadcasting
+* `/daily` - turn off daily broadcasting. You can set time in `config.py`
+* `/hourly` - turn off hourly broadcasting.
+* `/help` - just send help info
+2. Bot can work with multiply channels. For example `/last ege` retrieve 5 posts from `ege` channel
+3. Bot using [botan.io](http://botan.io) for collecting statistic.
 
 ### Installation
-1. Clone this repo
-2. `pip install -r requirements.txt`
-3. Create the bot on Telegram (just say `/newbot` to [BotFather](https://core.telegram.org/bots#botfather))
-4. Update `config.py` with your information (tokens, keys, etc)
-5. For first run you should uncomment `init_webhook()` and run `python bot.py`. It should set new webhook to Heroku server
-6. For broadcast message from your VK public just run `python parser.py`. It retrieves 20 post and sends it to all user of Heroku database
-7. That's it!
+1. [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vizigin/petrovich)
+2. Create the bot on Telegram (just say `/newbot` to [BotFather](https://core.telegram.org/bots#botfather))
+3. Update `config.py` with your information (tokens, keys, etc)
+4. Uncomment last 2 lines of the `bot.py` script and push all changes to Heroku
+5. Run `heroku run python `./bot/bot.py`. It should set new webhook to Heroku server
+6. Revert `bot.py` script back and push all changes to Heroku
+7. Schedule (I using Heroku Scheduler) VK parser for broadcast posts from your public to users and database cleaner for long support. I use `python ./bot/broadcaster.py` every 10 minutes for Brodcaster and `if [ "$(date +%d)" = 01 ]; then python ./bot/cache_cleaner.py; fi` for Database Cleaner
+8. That's it!
 
-### Yandex. Metrika
-Bot using [botan.io](http://botan.io) for collecting statistic.
+### This repo used by: 
 
-### Heroku
-You can host your Bot for free on [Heroku](http://heroku.com). It is ready to deploy.
-
-```bash
-heroku create
-git push heroku master
-heroku ps:scale web=1
-heroku ps
-heroku logs
-```
-
-Also you should schedule (I using Heroku Scheduler) VK parser for broadcast posts from your public to users.
-
-This repo used by: 
-* [Banekbot](http://telegram.me/banekbot). Bot for VK [public](https://vk.com/baneks)
-* [SMMRussiabot](http://telegram.me/smmrussiabot). Bot for RSS [site](http://siliconrus.com)
+<p align="center" >
+  <a href="http://telegram.me/banekbot"><img src="http://dvizigin.myjino.ru/img/petrovich/banek_logo_150.png" title="АКБ" float=left></a>
+  <a href="http://telegram.me/diletant_bot"><img src="http://dvizigin.myjino.ru/img/petrovich/diletant_logo_150.png" title="diletant.media" float=left></a>
+  <a href="http://telegram.me/echom_bot"><img src="http://dvizigin.myjino.ru/img/petrovich/echomsk_logo_150.png" title="Эхо Москвы" float=left></a>
+  <a href="http://telegram.me/smmrussiabot"><img src="http://dvizigin.myjino.ru/img/petrovich/vcru_logo_150.png" title="VC.RU" float=left></a>
+  <a href="http://telegram.me/iGuidesBot"><img src="http://dvizigin.myjino.ru/img/petrovich/iguides_logo_150.png" title="iGuides" float=left></a>
+</p>
